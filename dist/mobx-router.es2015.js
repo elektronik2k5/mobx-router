@@ -418,14 +418,16 @@ var RouterStore = (_class = function () {
 }), _applyDecoratedDescriptor(_class.prototype, 'goTo', [action], Object.getOwnPropertyDescriptor(_class.prototype, 'goTo'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'currentPath', [computed], Object.getOwnPropertyDescriptor(_class.prototype, 'currentPath'), _class.prototype)), _class);
 
 var createDirectorRouter = function createDirectorRouter(views, store) {
-  new Router(_extends({}, viewsForDirector(views, store))).configure({
+  var directorConf = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
+
+  new Router(_extends({}, viewsForDirector(views, store))).configure(_extends({
     html5history: true
-  }).init();
+  }, directorConf)).init();
 };
 
-var startRouter = function startRouter(views, store) {
+var startRouter = function startRouter(views, store, directorConf) {
   //create director configuration
-  createDirectorRouter(views, store);
+  createDirectorRouter(views, store, directorConf);
 
   //autorun and watch for path changes
   autorun(function () {

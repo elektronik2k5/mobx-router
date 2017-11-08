@@ -2,17 +2,18 @@ import {Router} from 'director/build/director';
 import {autorun} from 'mobx';
 import {viewsForDirector} from './utils';
 
-const createDirectorRouter = (views, store) => {
+const createDirectorRouter = (views, store, directorConf = {}) => {
   new Router({
     ...viewsForDirector(views, store)
   }).configure({
-    html5history: true
+    html5history: true,
+    ...directorConf,
   }).init();
 };
 
-const startRouter = (views, store) => {
+const startRouter = (views, store, directorConf) => {
   //create director configuration
-  createDirectorRouter(views, store);
+  createDirectorRouter(views, store, directorConf);
 
   //autorun and watch for path changes
   autorun(() => {

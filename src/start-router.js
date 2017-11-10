@@ -3,7 +3,7 @@ import {autorun} from 'mobx';
 import {viewsForDirector} from './utils';
 
 const createDirectorRouter = (views, store, directorConf = {}) => {
-  new Router({
+  return new Router({
     ...viewsForDirector(views, store)
   }).configure({
     html5history: true,
@@ -13,7 +13,7 @@ const createDirectorRouter = (views, store, directorConf = {}) => {
 
 const startRouter = (views, store, directorConf) => {
   //create director configuration
-  createDirectorRouter(views, store, directorConf);
+  const directorRouter = createDirectorRouter(views, store, directorConf);
 
   //autorun and watch for path changes
   autorun(() => {
@@ -22,6 +22,7 @@ const startRouter = (views, store, directorConf) => {
       window.history.pushState(null, null, currentPath)
     }
   });
+  return directorRouter
 };
 
 export default startRouter;

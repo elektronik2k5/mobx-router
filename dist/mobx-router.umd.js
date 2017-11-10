@@ -423,14 +423,14 @@ var RouterStore = (_class = function () {
 var createDirectorRouter = function createDirectorRouter(views, store) {
   var directorConf = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
 
-  new director_build_director.Router(_extends({}, viewsForDirector(views, store))).configure(_extends({
+  return new director_build_director.Router(_extends({}, viewsForDirector(views, store))).configure(_extends({
     html5history: true
   }, directorConf)).init();
 };
 
 var startRouter = function startRouter(views, store, directorConf) {
   //create director configuration
-  createDirectorRouter(views, store, directorConf);
+  var directorRouter = createDirectorRouter(views, store, directorConf);
 
   //autorun and watch for path changes
   mobx.autorun(function () {
@@ -440,6 +440,7 @@ var startRouter = function startRouter(views, store, directorConf) {
       window.history.pushState(null, null, currentPath);
     }
   });
+  return directorRouter;
 };
 
 var MobxRouter = function MobxRouter(_ref) {

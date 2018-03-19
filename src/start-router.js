@@ -18,7 +18,9 @@ const startRouter = (views, store, directorConf) => {
   //autorun and watch for path changes
   autorun(() => {
     const {currentPath} = store.router;
-    if (currentPath !== window.location.pathname) {
+    const { pathname, search, } = window.location
+    const fullPath = `${ pathname }${ search }`
+    if (currentPath !== fullPath) {
       window.history.pushState(null, null, currentPath)
     }
   });

@@ -432,8 +432,12 @@ var startRouter = function startRouter(views, store, directorConf) {
   //autorun and watch for path changes
   autorun(function () {
     var currentPath = store.router.currentPath;
+    var _window$location = window.location,
+        pathname = _window$location.pathname,
+        search = _window$location.search;
 
-    if (currentPath !== window.location.pathname) {
+    var fullPath = '' + pathname + search;
+    if (currentPath !== fullPath) {
       window.history.pushState(null, null, currentPath);
     }
   });

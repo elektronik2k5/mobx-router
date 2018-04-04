@@ -1,0 +1,21 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Link in new tab renders 1`] = `
+<a
+  href="/profile"
+  onClick={[Function]}
+  rel="noopener"
+  target="_blank"
+>
+  link in new tab
+</a>
+`;
+
+exports[`Link renders 1`] = `
+<a
+  href="/profile"
+  onClick={[Function]}
+>
+  link
+</a>
+`;

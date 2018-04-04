@@ -5,6 +5,7 @@
   "main": "dist/mobx-router.js",
   "jsnext:main": "dist/mobx-router.es2015.js",
   "scripts": {
+    "jest": "jest --watch",
     "test": "jest && npm run build",
     "build": "rollup-babel-lib-bundler index.js"
   },
@@ -44,6 +45,8 @@
     "babel-preset-react": "6.24.1",
     "babel-preset-stage-0": "^6.24.1",
     "jest-cli": "^22.4.3",
+    "react-dom": "^16.3.1",
+    "react-test-renderer": "^16.3.1",
     "rollup-babel-lib-bundler": "3.1.0"
   },
   "rollupBabelLibBundler": {

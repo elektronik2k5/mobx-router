@@ -105,7 +105,17 @@ var get$1 = function get$1(object, property, receiver) {
 
 
 
+var objectWithoutProperties = function (obj, keys) {
+  var target = {};
 
+  for (var i in obj) {
+    if (keys.indexOf(i) >= 0) continue;
+    if (!Object.prototype.hasOwnProperty.call(obj, i)) continue;
+    target[i] = obj[i];
+  }
+
+  return target;
+};
 
 
 
@@ -460,55 +470,61 @@ var MobxRouter = function MobxRouter(_ref) {
 };
 var MobxRouter$1 = mobxReact.inject('store')(mobxReact.observer(MobxRouter));
 
-var Link = function Link(_ref) {
+var newTabProps = {
+  target: '_blank',
+  rel: 'noopener'
+};
+
+function Link(_ref) {
   var view = _ref.view,
       className = _ref.className,
       _ref$params = _ref.params,
       params = _ref$params === undefined ? {} : _ref$params,
       _ref$queryParams = _ref.queryParams,
       queryParams = _ref$queryParams === undefined ? {} : _ref$queryParams,
+      _ref$href = _ref.href,
+      href = _ref$href === undefined ? view.replaceUrlParams(params, queryParams) : _ref$href,
       _ref$store = _ref.store,
       store = _ref$store === undefined ? {} : _ref$store,
       _ref$refresh = _ref.refresh,
       refresh = _ref$refresh === undefined ? false : _ref$refresh,
-      _ref$style = _ref.style,
-      style = _ref$style === undefined ? {} : _ref$style,
+      style = _ref.style,
       children = _ref.children,
       _ref$title = _ref.title,
       title = _ref$title === undefined ? children : _ref$title,
       _ref$router = _ref.router,
-      router = _ref$router === undefined ? store.router : _ref$router;
+      router = _ref$router === undefined ? store.router : _ref$router,
+      _ref$shouldOpenInNewT = _ref.shouldOpenInNewTab,
+      shouldOpenInNewTab = _ref$shouldOpenInNewT === undefined ? false : _ref$shouldOpenInNewT,
+      linkProps = objectWithoutProperties(_ref, ['view', 'className', 'params', 'queryParams', 'href', 'store', 'refresh', 'style', 'children', 'title', 'router', 'shouldOpenInNewTab']);
 
   if (!router) {
-    return console.error('The router prop must be defined for a Link component to work!');
+    return console.error("The 'router' prop must be defined for a Link component to work!", { args: arguments });
   }
-  return React.createElement(
-    'a',
-    {
-      style: style,
-      className: className,
-      onClick: function onClick(e) {
-        var middleClick = e.which == 2;
-        var cmdOrCtrl = e.metaKey || e.ctrlKey;
-        var openinNewTab = middleClick || cmdOrCtrl;
-        var shouldNavigateManually = refresh || openinNewTab || cmdOrCtrl;
+  var anchorProps = _extends({}, style && { style: style }, className && { className: className }, shouldOpenInNewTab && newTabProps, {
+    onClick: function onClick(e) {
+      var isMiddleClick = e.which === 2;
+      var isCmdOrCtrl = e.metaKey || e.ctrlKey;
+      var realShouldOpenInNewTab = shouldOpenInNewTab || isMiddleClick || isCmdOrCtrl;
+      var shouldNavigateManually = refresh || realShouldOpenInNewTab || isCmdOrCtrl;
+      if (!shouldNavigateManually) {
+        e.preventDefault();
+        router.goTo(view, params, store, queryParams);
+      }
+    },
 
-        if (!shouldNavigateManually) {
-          e.preventDefault();
-          router.goTo(view, params, store, queryParams);
-        }
-      },
-      href: view.replaceUrlParams(params, queryParams) },
-    title
-  );
-};
+    href: href,
+    children: title
+  }, linkProps);
+  return React.createElement('a', anchorProps);
+}
 
-var Link$1 = mobxReact.observer(Link);
+var ObserverLink = mobxReact.observer(Link);
 
 //components
 
 exports.Route = Route;
 exports.MobxRouter = MobxRouter$1;
-exports.Link = Link$1;
+exports.Link = ObserverLink;
 exports.RouterStore = RouterStore;
 exports.startRouter = startRouter;

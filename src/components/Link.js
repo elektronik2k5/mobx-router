@@ -1,31 +1,52 @@
-import React, {Component} from 'react';
-import {observer} from 'mobx-react';
+import React from 'react';
+import { observer, } from 'mobx-react';
 
-const Link = ({
-  view, className, params = {}, queryParams = {}, store = {}, refresh = false, style = {}, children, title = children, router = store.router,
-}) => {
-  if (!router) {
-    return console.error('The router prop must be defined for a Link component to work!')
-  }
-  return (
-    <a
-      style={style}
-      className={className}
-      onClick={e => {
-        const middleClick = e.which == 2;
-        const cmdOrCtrl = (e.metaKey || e.ctrlKey);
-        const openinNewTab = middleClick || cmdOrCtrl;
-        const shouldNavigateManually = refresh || openinNewTab || cmdOrCtrl;
-
-        if (!shouldNavigateManually) {
-          e.preventDefault();
-          router.goTo(view, params, store, queryParams);
-        }
-      }}
-      href={view.replaceUrlParams(params, queryParams)}>
-      {title}
-    </a>
-  )
+const newTabProps = {
+  target: '_blank',
+  rel: 'noopener',
 }
 
-export default observer(Link);
+export function Link({
+  view,
+  className,
+  params = {},
+  queryParams = {},
+  href = view.replaceUrlParams(params, queryParams),
+  store = {},
+  refresh = false,
+  style,
+  children,
+  title = children,
+  router = store.router,
+  shouldOpenInNewTab = false,
+  ...linkProps,
+}){
+  if (!router) {
+    return console.error(
+      "The 'router' prop must be defined for a Link component to work!", { args: arguments, }
+    )
+  }
+  const anchorProps = {
+    ...(style && { style, }),
+    ...(className && { className, }),
+    ...(shouldOpenInNewTab && newTabProps),
+    onClick(e){
+      const isMiddleClick = e.which === 2
+      const isCmdOrCtrl = (e.metaKey || e.ctrlKey);
+      const realShouldOpenInNewTab = shouldOpenInNewTab || isMiddleClick || isCmdOrCtrl;
+      const shouldNavigateManually = refresh || realShouldOpenInNewTab || isCmdOrCtrl;
+      if (!shouldNavigateManually) {
+        e.preventDefault()
+        router.goTo(view, params, store, queryParams)
+      }
+    },
+    href,
+    children: title,
+    ...linkProps,
+  }
+  return <a {...anchorProps} />
+}
+
+export const ObserverLink = observer(Link)
+
+export default ObserverLink

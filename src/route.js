@@ -1,5 +1,4 @@
 import {toJS} from 'mobx';
-import {getObjectKeys} from './utils';
 import {paramRegex, optionalRegex} from './regex';
 import {getRegexMatches} from './utils';
 import queryString from 'query-string';
@@ -18,7 +17,7 @@ class Route {
   beforeExit;
 
   constructor(props) {
-    getObjectKeys(props).forEach((propKey) => this[propKey] = props[propKey]);
+    Object.defineProperties(this, Object.getOwnPropertyDescriptors(props))
     this.originalPath = this.path;
 
     //if there are optional parameters, replace the path with a regex expression

@@ -10,6 +10,9 @@ var director_build_director = require('director/build/director');
 var React = _interopDefault(require('react'));
 var mobxReact = require('mobx-react');
 
+var paramRegex = /\/(:([^\/?]*)\??)/g;
+var optionalRegex = /(\/:[^\/]*\?)$/g;
+
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) {
   return typeof obj;
 } : function (obj) {
@@ -209,20 +212,13 @@ var getRegexMatches = function getRegexMatches(string, regexExpression, callback
   }
 };
 
-var paramRegex = /\/(:([^\/?]*)\??)/g;
-var optionalRegex = /(\/:[^\/]*\?)$/g;
-
 var Route = function () {
 
   //lifecycle methods
   function Route(props) {
-    var _this = this;
-
     classCallCheck(this, Route);
 
-    getObjectKeys(props).forEach(function (propKey) {
-      return _this[propKey] = props[propKey];
-    });
+    Object.defineProperties(this, Object.getOwnPropertyDescriptors(props));
     this.originalPath = this.path;
 
     //if there are optional parameters, replace the path with a regex expression

@@ -16,7 +16,9 @@ test('viewsForDirector', () => {
     }),
     gallery: new Route({
       path: '/gallery',
-      component: <div/>
+      get component(){
+        throw Error("Getter shouldn't be called until route becomes currentRoute")
+      },
     }),
   };
 

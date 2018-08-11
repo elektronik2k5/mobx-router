@@ -1,6 +1,6 @@
 {
   "name": "mobx-router",
-  "version": "0.0.14",
+  "version": "0.0.15",
   "description": "A simple router for MobX",
   "main": "dist/mobx-router.js",
   "jsnext:main": "dist/mobx-router.es2015.js",
@@ -20,22 +20,25 @@
     "react"
   ],
   "author": "Kitze <kristijan.mkd@gmail.com> (http://kitze.rocks/)",
+  "contributors": [
+    "Nick Ribal <elektronik2k5@gmail.com> (https://about.me/nickribal)"
+  ],
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/kitze/mobx-router/issues"
+    "url": "https://github.com/elektronik2k5/mobx-router/issues"
   },
-  "homepage": "https://github.com/kitze/mobx-router#readme",
+  "homepage": "https://github.com/elektronik2k5/mobx-router#readme",
   "dependencies": {
     "babel-runtime": "^6.26.0",
     "director": "1.2.8",
-    "mobx": "^4.3.0",
-    "mobx-react": "^5.1.2",
-    "mobx-state-tree": "^2.0.5",
+    "mobx": "^4.3.1",
+    "mobx-react": "^5.2.5",
+    "mobx-state-tree": "^2.2.0",
     "query-string": "^5.1.1",
-    "react": "^16.4.0"
+    "react": "^16.4.2"
   },
   "devDependencies": {
-    "babel-jest": "^22.4.4",
+    "babel-jest": "^23.4.2",
     "babel-plugin-add-module-exports": "^0.2.1",
     "babel-plugin-transform-decorators-legacy": "1.3.5",
     "babel-plugin-transform-runtime": "^6.23.0",
@@ -44,10 +47,10 @@
     "babel-preset-es2015-rollup": "^3.0.0",
     "babel-preset-react": "6.24.1",
     "babel-preset-stage-0": "^6.24.1",
-    "flow-bin": "^0.73.0",
-    "jest-cli": "^22.4.4",
-    "react-dom": "^16.4.0",
-    "react-test-renderer": "^16.4.0",
+    "flow-bin": "^0.78.0",
+    "jest-cli": "^23.5.0",
+    "react-dom": "^16.4.2",
+    "react-test-renderer": "^16.4.2",
     "rollup-babel-lib-bundler": "3.1.0"
   },
   "rollupBabelLibBundler": {
